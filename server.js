@@ -1,23 +1,23 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-require('dotenv').config();
 
 const Expense = require('./models/Expense');
 const app = express();
 
+
 const PORT = process.env.PORT || 3001;
-const MONGO_URL = process.env.MONGO_URL;
+
+const MONGO_URL = "mongodb+srv://DeepakJ:23adr024@cluster0.7paa4z1.mongodb.net/JD?retryWrites=true&w=majority&appName=Cluster0";
 
 app.use(cors());
 app.use(express.json());
 
+
 mongoose
-  .connect(MONGO_URL, {
-    ssl: true, 
-  })
+  .connect(MONGO_URL, { ssl: true })
   .then(() => console.log('Connected to MongoDB Atlas'))
-  .catch((err) => console.error('MongoDB Connection Error:', err));
+  .catch((err) => console.error(' MongoDB Connection Error:', err));
 
 
 
@@ -37,8 +37,7 @@ app.post('/Expense', async (req, res) => {
   }
 });
 
-
-app.get('/Expense', async (req, res) => {
+app.get('/get_Expense', async (req, res) => {
   try {
     const expenses = await Expense.find({});
     res.status(200).json({ expenses });
@@ -47,7 +46,6 @@ app.get('/Expense', async (req, res) => {
     res.status(500).json({ message: 'Internal Server Error' });
   }
 });
-
 
 app.delete('/Expense/:id', async (req, res) => {
   try {
@@ -65,5 +63,5 @@ app.delete('/Expense/:id', async (req, res) => {
 
 
 app.listen(PORT, () => {
-  console.log(`Server is running at http://localhost:${PORT}`);
+  console.log(` Server is running on port ${PORT}`);
 });
